@@ -4,14 +4,14 @@ import { RepositoryItem } from './RepositoryItem'
 
 import '../styles/repositories.scss'
 
-const repository = {
-	name: 'Item 1',
-	description: 'Descrição do item 1',
-	link: 'https://github.com/Ddiegoreis/',
+interface Repository {
+	name: string
+	description: string
+	html_url: string
 }
 
 export function RepositoryList() {
-	const [repositories, setRepositories] = useState([])
+	const [repositories, setRepositories] = useState<Repository[]>([])
 
 	useEffect(() => {
 		fetch('https://api.github.com/users/Ddiegoreis/repos')
@@ -24,9 +24,9 @@ export function RepositoryList() {
 			<h1>Lista de repositórios</h1>
 
 			<ul>
-				<RepositoryItem repository={repository} />
-				<RepositoryItem />
-				<RepositoryItem />
+				{repositories.map((repository) => (
+					<RepositoryItem repository={repository} key={repository.name} />
+				))}
 			</ul>
 		</section>
 	)
